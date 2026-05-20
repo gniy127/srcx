@@ -12,25 +12,20 @@
 }
 
 .input-area {
+  width: 100%;
   display: flex;
-  align-items: center;
+  justify-content: center;
   margin-bottom: 40rpx;
 }
 
-.input-item {
-  width: 120rpx;
+.input-item-full {
+  width: 600rpx;
   height: 80rpx;
   border: 1rpx solid #ccc;
   border-radius: 8rpx;
   padding: 0 20rpx;
   font-size: 32rpx;
   text-align: center;
-}
-
-.star {
-  font-size: 32rpx;
-  margin: 0 20rpx;
-  color: #666;
 }
 
 .query-btn {
@@ -70,7 +65,7 @@
   color: #07c160;
 }
 
-.history-btn, .admin-btn {
+.history-btn {
   margin-top: 40rpx;
   font-size: 28rpx;
   color: #1677ff;
@@ -78,4 +73,6 @@
 
 .admin-btn {
   margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #1677ff;
 }
