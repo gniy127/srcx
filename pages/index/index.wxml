@@ -1,0 +1,53 @@
+<view class="container">
+  <!-- 顶部标题 -->
+  <view class="title">查询</view>
+  
+  <!-- 号码输入区域 -->
+  <view class="input-area">
+    <input 
+      class="input-item" 
+      type="number" 
+      placeholder="前3位" 
+      bindinput="inputFirstThree"
+      maxlength="3"
+      value="{{firstThree}}"
+    />
+    <view class="star">***</view>
+    <input 
+      class="input-item" 
+      type="number" 
+      placeholder="后5位" 
+      bindinput="inputLastFive"
+      maxlength="5"
+      value="{{lastFive}}"
+    />
+  </view>
+  
+  <!-- 查询按钮 -->
+  <button 
+    class="query-btn" 
+    bindtap="queryPhone"
+    disabled="{{!canQuery}}"
+    loading="{{isLoading}}"
+  >
+    查找
+  </button>
+  
+  <!-- 结果展示区域 -->
+  <view class="result-area" wx:if="{{showResult}}">
+    <view class="result-phone">{{firstThree}}****{{lastFive}}</view>
+    <view class="result-text {{result === '是骚扰电话' ? 'danger' : 'success'}}">
+      {{result === '是骚扰电话' ? '是' : '不是'}}
+    </view>
+  </view>
+  
+  <!-- 查询历史入口 -->
+  <view class="history-btn" bindtap="toHistory">
+    查看查询历史
+  </view>
+  
+  <!-- 管理员入口 -->
+  <view class="admin-btn" bindtap="toAdmin">
+    管理员后台
+  </view>
+</view>

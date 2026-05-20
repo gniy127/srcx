@@ -1,0 +1,81 @@
+.container {
+  padding: 40rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 60rpx;
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.input-item {
+  width: 120rpx;
+  height: 80rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.star {
+  font-size: 32rpx;
+  margin: 0 20rpx;
+  color: #666;
+}
+
+.query-btn {
+  width: 80%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #07c160;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+}
+
+.query-btn[disabled] {
+  background-color: #ccc;
+}
+
+.result-area {
+  margin-top: 60rpx;
+  text-align: center;
+}
+
+.result-phone {
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.result-text {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.danger {
+  color: #f53f3f;
+}
+
+.success {
+  color: #07c160;
+}
+
+.history-btn, .admin-btn {
+  margin-top: 40rpx;
+  font-size: 28rpx;
+  color: #1677ff;
+}
+
+.admin-btn {
+  margin-top: 20rpx;
+}
