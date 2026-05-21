@@ -2,63 +2,78 @@ const app = getApp()
 
 Page({
   data: {
-    phone: '',
-    displayPhone: '',
+    firstThree: '',
+    lastFive: '',
     canQuery: false,
     isLoading: false,
     showResult: false,
     result: ''
   },
 
-  inputPhone(e) {
+  inputFirstThree(e) {
     const value = e.detail.value.trim()
-    this.setData({ phone: value })
-    const canQuery = /^1\d{10}$/.test(value)
+    this.setData({ firstThree: value }, this.checkCanQuery)
+  },
+
+  inputLastFive(e) {
+    const value = e.detail.value.trim()
+    this.setData({ lastFive: value }, this.checkCanQuery)
+  },
+
+  checkCanQuery() {
+    const { firstThree, lastFive } = this.data
+    const canQuery = /^1\d{2}$/.test(firstThree) && /^\d{5}$/.test(lastFive)
     this.setData({ canQuery })
   },
 
-  onQueryTap() {
-    const { phone, canQuery } = this.data
+  queryPhone() {
+    const { firstThree, lastFive, canQuery } = this.data
     if (!canQuery) {
-      wx.showToast({ title: '请输入正确的11位手机号', icon: 'none' })
+      wx.showToast({ title: '请输入正确格式', icon: 'none' })
       return
     }
 
-    const feature = phone.substring(0, 3) + phone.substring(6)
-    const displayPhone = phone.substring(0, 3) + '****' + phone.substring(6)
-
     this.setData({ isLoading: true, showResult: false })
+    const feature = firstThree + lastFive
 
     wx.cloud.callFunction({
       name: 'queryPhone',
-      data: { feature: feature },
+      data: { feature },
+      timeout: 20000, 
       success: (res) => {
+        console.log('[index] 云函数返回：', res)
         this.setData({ isLoading: false })
-        const data = res.result
-        if (data && data.success) {
-          const result = data.result
-          this.saveHistory(displayPhone, result)
+
+        if (res.result?.success) {
+          const result = res.result.result
+          this.saveHistory(firstThree, lastFive, result)
           this.setData({
-            result: result,
-            displayPhone: displayPhone,
+            result,
             showResult: true
           })
         } else {
-          wx.showToast({ title: '查询失败', icon: 'none' })
+          wx.showToast({
+            title: res.result?.error || '查询失败',
+            icon: 'none'
+          })
         }
       },
       fail: (err) => {
+        console.error('[index] 调用失败：', err)
         this.setData({ isLoading: false })
-        wx.showToast({ title: '网络异常，请稍后重试', icon: 'none' })
+        wx.showToast({
+          title: '网络异常，请稍后重试',
+          icon: 'none'
+        })
       }
     })
   },
 
-  saveHistory(displayPhone, result) {
+  saveHistory(firstThree, lastFive, result) {
     const history = wx.getStorageSync('queryHistory') || []
     history.unshift({
-      phone: displayPhone,
-      result: result,
+      phone: `${firstThree}***${lastFive}`,
+      result,
       time: new Date().toLocaleString()
     })
     if (history.length > 20) history.pop()
